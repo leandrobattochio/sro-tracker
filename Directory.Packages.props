@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.14" />
+    <PackageVersion Include="Refit" Version="17.0.0" />
+    <PackageVersion Include="Refit.HttpClientFactory" Version="17.0.0" />
+    <PackageVersion Include="System.CommandLine" Version="2.0.0" />
+  </ItemGroup>
+</Project>
