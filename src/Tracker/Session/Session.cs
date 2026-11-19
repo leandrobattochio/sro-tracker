@@ -8,11 +8,11 @@ using Tracker;
 // /liberacao on every tracking call. Callers can Invalidate() if a request is rejected.
 internal sealed class TrackerSession(IOptions<TrackerOptions> options, ReleaseService release)
 {
-    readonly TrackerOptions _options = options.Value;
-    readonly SemaphoreSlim _gate = new(1, 1);
+    private readonly TrackerOptions _options = options.Value;
+    private readonly SemaphoreSlim _gate = new(1, 1);
 
-    ReleaseResult? _current;
-    DateTimeOffset _expiresAt;
+    private ReleaseResult? _current;
+    private DateTimeOffset _expiresAt;
 
     public string CheckKey =>
         string.IsNullOrEmpty(_options.CheckKey)
@@ -31,7 +31,7 @@ internal sealed class TrackerSession(IOptions<TrackerOptions> options, ReleaseSe
                 return _current!;
 
             var result = await release.ReleaseAsync(keySelection, ts, cancellationToken);
-            if (!result.Success || string.IsNullOrEmpty(result.Token) || string.IsNullOrEmpty(result.Cookie))
+            if (!result.Success || string.IsNullOrEmpty(result.Token))
                 throw new InvalidOperationException($"Release failed (HTTP {result.StatusCode}): {result.Body}");
 
             _current = result;
@@ -48,6 +48,6 @@ internal sealed class TrackerSession(IOptions<TrackerOptions> options, ReleaseSe
     public void Invalidate() => _current = null;
 
     // Renew a little before `exp` so an in-flight request doesn't race the expiry.
-    bool IsValid() =>
+    private bool IsValid() =>
         _current is not null && DateTimeOffset.UtcNow < _expiresAt - _options.RenewalSkew;
 }

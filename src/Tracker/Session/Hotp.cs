@@ -6,10 +6,9 @@ using System.Security.Cryptography;
 
 public static class Hotp
 {
-    public static string HotpCode(string base32Secret, long counter)
+    public static string Generate(string base32Secret, long counter)
     {
-        if (counter < 0)
-            throw new ArgumentOutOfRangeException(nameof(counter));
+        ArgumentOutOfRangeException.ThrowIfNegative(counter);
 
         var secret = DecodeBase32(base32Secret);
 

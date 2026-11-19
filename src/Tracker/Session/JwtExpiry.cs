@@ -29,7 +29,7 @@ internal static class JwtExpiry
         return null;
     }
 
-    static bool TryDecodeBase64Url(string value, out byte[] bytes)
+    private static bool TryDecodeBase64Url(string value, out byte[] bytes)
     {
         var padded = value.Replace('-', '+').Replace('_', '/');
         padded = (padded.Length % 4) switch

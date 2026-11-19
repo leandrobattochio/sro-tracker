@@ -16,11 +16,11 @@ internal static class RequestToken
         return Encrypt(plainText, publicKey);
     }
 
-    static string BuildPlainText(string secret, long counter, AppInfo app)
+    private static string BuildPlainText(string secret, long counter, AppInfo app)
     {
         return string.Join(';', new[]
         {
-            Hotp.HotpCode(secret, counter),
+            Hotp.Generate(secret, counter),
             counter.ToString(CultureInfo.InvariantCulture),
             app.Ts != string.Empty ? app.Ts : IsoTimestamp(),
             app.Platform,
@@ -31,7 +31,7 @@ internal static class RequestToken
         });
     }
 
-    static string Encrypt(string plainText, string publicKeyPem)
+    private static string Encrypt(string plainText, string publicKeyPem)
     {
         using var rsa = RSA.Create();
         rsa.ImportFromPem(publicKeyPem);
@@ -39,7 +39,7 @@ internal static class RequestToken
         return Convert.ToBase64String(cipher);
     }
 
-    static string IsoTimestamp(DateTimeOffset? now = null)
+    private static string IsoTimestamp(DateTimeOffset? now = null)
     {
         var dt = now ?? DateTimeOffset.Now;
         var baseDate = dt.ToString("yyyy-MM-dd'T'HH:mm:ss", CultureInfo.InvariantCulture);

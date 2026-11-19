@@ -1,14 +1,15 @@
 namespace Tracker;
 
+using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Refit;
-using Tracker.Session;
-using Tracker.Tracking;
-using Tracker.Transport;
+using Session;
+using Tracking;
+using Transport;
 
 public static class ServiceCollectionExtensions
 {
@@ -31,15 +32,17 @@ public static class ServiceCollectionExtensions
             })
         };
 
+        var cookieJar = new CookieContainer();
+
         services
             .AddRefitGeneratedClient<ITrackerClient>(settings)
             .ConfigureHttpClient((sp, client) =>
                 client.BaseAddress = new Uri(sp.GetRequiredService<IOptions<TrackerOptions>>().Value.BaseUrl))
             .AddHttpMessageHandler(() => new LegacyHeadersHandler())
-            // Cookie is sent by hand (Cookie: LBprdint2=...); auto redirects off, matching the legacy script.
             .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
-                UseCookies = false,
+                UseCookies = true,
+                CookieContainer = cookieJar,
                 AllowAutoRedirect = false
             });
 

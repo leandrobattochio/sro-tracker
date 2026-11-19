@@ -1,6 +1,8 @@
 namespace Tracker.Cli;
 
 using Microsoft.Extensions.DependencyInjection;
+using Spectre.Console;
+using Tracker.Cli.Tracking;
 using Tracker.Tracking;
 
 public sealed class TrackerCli(IServiceProvider services)
@@ -22,8 +24,17 @@ public sealed class TrackerCli(IServiceProvider services)
         var tracking = services.GetRequiredService<ITrackingService>();
         var result = await tracking.TrackAsync(trackingCode, keySelection, ts, cancellationToken);
 
-        Console.WriteLine($"GET /v1/sro-rastro/{trackingCode} HTTP {result.StatusCode}: {result.Body}");
-        return result.Success ? 0 : 1;
+        if (result.Success)
+        {
+            TrackingView.Render(result.Body);
+            return 0;
+        }
+
+        AnsiConsole.Write(new Panel(new Text(result.Body.Length > 0 ? result.Body : "(sem corpo)"))
+            .Header($"[red] {Markup.Escape(trackingCode)} · HTTP {result.StatusCode} [/]")
+            .RoundedBorder()
+            .BorderColor(Color.Red));
+        return 1;
     }
 
     public async Task<int> RunInteractiveAsync(CancellationToken cancellationToken)
