@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
+        <RootNamespace>Tracker.Cli</RootNamespace>
         <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
     </PropertyGroup>
 
@@ -15,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="../API/API.csproj" />
+        <ProjectReference Include="../Tracker/Tracker.csproj" />
     </ItemGroup>
 
 </Project>

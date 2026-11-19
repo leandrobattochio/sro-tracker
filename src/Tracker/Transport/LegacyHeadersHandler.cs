@@ -1,11 +1,11 @@
-namespace API;
+namespace Tracker.Transport;
 
 using System.Net.Http.Headers;
 
-// O cliente legado (requests) manda Content-Type em toda request, inclusive nos GET sem corpo.
-// HttpClient só emite um header de conteúdo quando há conteúdo, então anexamos um corpo vazio
-// sem Content-Length para carregar o Content-Type, igual ao requests (header sem corpo).
-public sealed class LegacyHeadersHandler : DelegatingHandler
+// The legacy client (requests) sends Content-Type on every request, including GETs with
+// no body. HttpClient only emits a content header when there is content, so we attach an
+// empty body without Content-Length just to carry the Content-Type, matching requests.
+internal sealed class LegacyHeadersHandler : DelegatingHandler
 {
     const string ContentType = "application/json; charset=utf-8";
 

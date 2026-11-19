@@ -3,6 +3,6 @@
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
   </Folder>
-  <Project Path="API/API.csproj" />
-  <Project Path="CLI/CLI.csproj" />
+  <Project Path="src/Tracker/Tracker.csproj" />
+  <Project Path="src/Tracker.Cli/Tracker.Cli.csproj" />
 </Solution>

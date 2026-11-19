@@ -1,4 +1,4 @@
-namespace API;
+namespace Tracker.Session;
 
 using System.Buffers.Binary;
 using System.Globalization;
