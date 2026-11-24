@@ -2,7 +2,7 @@
 
 A .NET client that talks to the Correios mobile tracking API the same way the official app does. It reproduces the app's authentication so a plain HTTP client is accepted by the backend, then looks up a tracking code and renders the events as a terminal timeline.
 
-The library lives in `src/Tracker`, the command-line front end in `src/Tracker.Cli`, and a Python reference of the original handshake in `legacy/`.
+The library lives in `src/Tracker`, and the command-line front end in `src/Tracker.Cli`.
 
 ## How authentication works
 
