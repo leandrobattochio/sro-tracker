@@ -156,5 +156,3 @@ The keys and secrets are not in this repository. They are read from the `Tracker
 | `Tracker:App` | App metadata: package name, build signature, version, build number, platform |
 | `Tracker:CounterFile` | Path to the counter file |
 | `Tracker:BaseUrl` | API base address |
-
-All five key and secret values are credentials. Keep them out of commits and out of any notes.
