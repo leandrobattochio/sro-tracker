@@ -481,5 +481,6 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 
-# Segredos locais do CLI
-CLI/appsettings.Development.json
+# Local secrets of the CLI (real HOTP secrets and RSA keys). Commit appsettings.Sample.json only.
+src/Tracker.Cli/appsettings.json
+src/Tracker.Cli/appsettings.Development.json

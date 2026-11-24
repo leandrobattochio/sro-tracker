@@ -1,10 +1,10 @@
-namespace API;
+namespace Tracker.Session;
 
 using System.Security.Cryptography;
 using System.Text;
 
-// Port de build_app_token_check: base64( RSA-OAEP(chave AES) || IV || ciphertext || tag ).
-public static class AppChecker
+// base64( RSA-OAEP(chave AES) || IV || ciphertext || tag ).
+public static class AppCheck
 {
     public static string BuildHeader(string publicKeyPem, string jwt)
     {
